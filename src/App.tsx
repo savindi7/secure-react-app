@@ -10,8 +10,8 @@ import { ReactNode } from "react";
 const authConfig = {
   signInRedirectURL: "http://localhost:3000",
   signOutRedirectURL: "http://localhost:3000",
-  clientID: "JMBSI4EAlfVjmpJ6UUtk9pyZejca",
-  baseUrl: "https://api.asgardeo.io/t/savindi",
+  clientID: "<client_id>",
+  baseUrl: "https://api.asgardeo.io/t/<org_name>",
   scope: ["openid", "profile"]
 };
 
