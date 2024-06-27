@@ -1,38 +1,45 @@
-import { AuthProvider, SecureApp } from "@asgardeo/auth-react";
+import { AuthProvider, useAuthContext } from "@asgardeo/auth-react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import PageNotFound from "./pages/PageNotFound";
-import Header from "./components/Header";
 import "./App.css";
+import Unauthenticated from "./pages/Unauthenticated";
+import { ReactNode } from "react";
 
 const authConfig = {
   signInRedirectURL: "http://localhost:3000",
   signOutRedirectURL: "http://localhost:3000",
-  clientID: "<client_id>",
-  baseUrl: "https://api.asgardeo.io/t/<org_name>",
+  clientID: "JMBSI4EAlfVjmpJ6UUtk9pyZejca",
+  baseUrl: "https://api.asgardeo.io/t/savindi",
   scope: ["openid", "profile"]
 };
 
 const AppContent = () => {
-  const Loader = () => {
-    return (
-      <div className="loading-container">
-        <p>...</p>
-      </div>
-    );
+
+  const ProtectedRoute = ({ children }: { children: ReactNode }) => {
+    const { state } = useAuthContext();
+
+    if (!state.isAuthenticated) {
+      return <Unauthenticated />;
+    }
+
+    return children;
   };
 
   return (
-    <SecureApp fallback={<Loader />}>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </SecureApp>
-  );
+    <Routes>
+      <Route
+        path="/contact"
+        element={
+          <ProtectedRoute>
+            <Contact />
+          </ProtectedRoute>
+        } />
+      <Route path="/" element={<Home />} />
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
+  )
 };
 
 const App = () => (
