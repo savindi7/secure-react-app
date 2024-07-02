@@ -1,4 +1,4 @@
-import { AuthProvider, SecureApp } from "@asgardeo/auth-react";
+import { AuthProvider } from "@asgardeo/auth-react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
@@ -15,23 +15,16 @@ const authConfig = {
 };
 
 const AppContent = () => {
-  const Loader = () => {
-    return (
-      <div className="loading-container">
-        <p>...</p>
-      </div>
-    );
-  };
 
   return (
-    <SecureApp fallback={<Loader />}>
+    <>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-    </SecureApp>
+      </>
   );
 };
 
